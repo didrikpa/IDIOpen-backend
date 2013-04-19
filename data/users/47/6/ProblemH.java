@@ -1,0 +1,26 @@
+import java.util.Scanner;
+
+
+public class ProblemH {
+	
+	public static int t;
+	
+	public static void main(String[] args) {
+		Scanner tast = new Scanner(System.in);
+		t = tast.nextInt();
+		tast.nextLine();
+		while(t-- > 0) {
+			String in = tast.nextLine();
+			 try {
+				 int temp  = Integer.parseInt(in);
+				 if(temp < 0)
+					 throw new NumberFormatException();
+				 System.out.println(temp);
+			 }
+			 catch(NumberFormatException e) {
+				 System.out.println("invalid input");
+			 }
+		}
+	}
+
+}

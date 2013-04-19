@@ -1,0 +1,51 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+
+using namespace std;
+
+
+int main(){
+    int T; cin >> T;
+    while(T--){
+        int N, M, R; 
+        cin >> N >> M >> R;
+        vector<int> E(N,0);
+        for(int i=0; i<N; ++i)
+            cin >> E[i];
+
+        vector<vector<int> >dp1(N+2, vector<int>(R+2, -1)), dp2(N+2, vector<int>(R+2, -1));
+        dp1[0][0]=0;
+        for(int i=1; i<=N; ++i){
+            dp2[0][0]=0;
+            for(int k=0; k<R+1; ++k)
+                dp2[0][k]=0;
+
+            for(int j=1; j<N+1; ++j){
+                for(int k=1; k<R+1; ++k){
+                    if(dp1[j-1][k-1]!=-1)
+                        dp2[j][k] = dp1[j-1][k-1]+k*E[i-1];
+                }
+            }
+
+            for(int j=1; j<N+1; ++j){
+                dp2[j][0] = dp1[j][0];
+                for(int k=0; k<R+1; ++k){
+                    dp2[j][0]=max(dp2[j][0], dp1[j][k]);
+                }
+            }
+            dp1 = dp2;
+            dp2 = vector<vector<int> >(N+2, vector<int>(R+2, -1));
+        }
+        int m = -1;
+        for(int k=0; k<=R; ++k){
+            m = max(m, dp1[M][k]);
+        }
+
+        if(m==-1) cout << "impossible" << endl;
+        else cout << m << endl;
+    }
+    return 0;
+
+
+}

@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+
+public class IsItAnInteger {
+	public static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+	 public static StringTokenizer st = null;
+	 
+	 public static String LINE() throws IOException {
+	  return stdin.readLine();
+	 }
+	 
+	 public static void main(String[] args) throws Exception {
+			int words = INT();
+			ArrayList<String> lolwords = new ArrayList<String>();
+			if (words > 500) {
+				words = 500;
+			}
+			for(int i = 0; i < words; i++){
+				String word = LINE();
+				lolwords.add(validInt(word));
+			}
+			for (int i = 0; i < lolwords.size(); i++) {
+				System.out.println(lolwords.get(i));
+			}
+		}
+	 
+	 public static String TOKEN() throws IOException {
+	  while(st==null || !st.hasMoreTokens())st = new StringTokenizer(LINE());
+	  return st.nextToken();
+	 }
+	 
+	 public static int INT() throws IOException {
+	  return Integer.parseInt(TOKEN());
+	 }
+ 
+ public static String validInt(String word){
+	 	word = word.trim();
+	 	if (word.equals("")) { return "invalid input"; }
+		if(word.matches("\\s*\\d*\\s*")) { 
+			String a = word.replaceAll("(0*)(\\d*)", "$2");
+			if (a.equals("")) { return "0"; }
+			else { return a; }
+		}
+		else { return "invalid input"; }
+	}
+ 
+}

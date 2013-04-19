@@ -1,0 +1,43 @@
+import java.util.Scanner;
+public class Number {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		int n = new Integer(scan.nextLine());
+		String[] lines = new String[n];
+		int[] answers = new int[n];
+		for(int i=0; i<n; i++) {
+			lines[i] = scan.nextLine().trim();
+			answers[i] = isNumber(lines[i]);
+		}
+		
+		for(int ans : answers) {
+			if(ans == -1) {
+				System.out.println("invalid input");
+			} else 
+				System.out.println(ans);
+		}
+
+	}
+
+	public static int isNumber(String line) {
+		if(line.contains(" ")) return -1;
+		else {
+			boolean b = true;
+			for(int i=0; i<line.length(); i++) {
+				if(!Character.isDigit(line.charAt(i))) {
+					return -1;
+				}
+			}
+			return validNumber(line);
+		
+		}	
+	}
+	public static int validNumber(String number) {
+		if(number.length() == 0) return 0;
+		if(number.charAt(0) != '0') {
+			return new Integer(number);
+		}
+		else 
+			return validNumber(number.substring(1));
+	}	
+}

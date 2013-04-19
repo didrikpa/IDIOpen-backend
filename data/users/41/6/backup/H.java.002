@@ -1,0 +1,41 @@
+import java.math.BigInteger;
+import java.util.Scanner;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: Tor
+ * Date: 14.04.13
+ * Time: 11:50
+ * To change this template use File | Settings | File Templates.
+ */
+public class H {
+
+    public static void main(String[] args) {
+        new H().go();
+    }
+
+    private void go() {
+        Scanner s = new Scanner(System.in);
+        int numCases = s.nextInt();
+        while(numCases-->0) {
+            Integer number = isNumber(s.next());
+            if(number == null)
+                System.out.println("invalid input");
+            else
+                System.out.println(number);
+        }
+    }
+
+    public Integer isNumber(String number) {
+        try {
+            BigInteger bigInt = new BigInteger(number);
+            if(bigInt.intValue() < 0)
+                return null;
+            if(number.contains("+"))
+                return null;
+            return bigInt.intValue();
+        } catch(Exception e) {
+            return null;
+        }
+    }
+}

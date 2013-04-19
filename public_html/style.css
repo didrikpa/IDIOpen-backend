@@ -1,0 +1,355 @@
+body{
+
+	color: #222222;
+
+	font-family: arial;
+	
+	padding-bottom: 10px;
+
+}
+
+#sponsor_links{
+        border-width:0px;
+        margin:0px;
+        padding:0px;
+}
+#sponsors{
+        border-width:0px;
+        margin: 0 0 -3px 0;
+        padding:0px;
+}
+
+#logo{
+
+	position: absolute;
+
+	left: 10px;
+
+	top: 10px;
+
+	width: 200px;
+
+	height: 200px;
+
+	border-width: 0px;
+
+	background-image: url(img/logo.png);
+
+}
+
+
+
+#sidebar{
+
+	position: absolute;
+
+	left: 10px;
+
+	top: 210px;
+
+	width: 200px;
+
+	border-width: 0;
+
+	background-image: url(img/sidebar_content.png);
+
+	background-repeat: repeat-y;
+
+}
+
+
+
+#sidebar h1{
+
+	font-size: medium;
+
+	border-width: 0;
+
+	padding-left: 5px;
+
+	margin: 0px;
+
+	background-image: url(img/sidebar_header.png);
+
+	height: 22px;
+
+}
+
+
+
+#sidebar p{
+
+	padding-left: 5px;
+
+	margin: 5px;
+}
+
+
+
+#sidebar p.footer{
+
+	border-width: 0;
+
+	margin: 0px;
+
+	background-image: url(img/sidebar_footer.png);
+
+	height: 9px;	
+
+	font-size: 1px;
+
+}
+
+#sidebar ul{
+
+	margin: 2px 5px 2px 15px;
+
+	padding: 5px 0 5px 0;
+
+}
+
+
+
+#sidebar li{
+
+	list-style-type: none;
+
+}
+
+#sidebar li a{
+
+	color: black;
+
+}
+
+#sidebar li a:hover{
+
+	color: red;
+
+}
+
+#sidebar .login{
+	font-size: 12px;
+}
+#sidebar .login #error{
+	color: red;
+	font-weight: bold;
+}
+
+
+
+
+
+#mainbar{
+
+	position: absolute;
+
+	left: 170px;
+
+	top: 100px;
+
+	width: 750px;
+
+	background-image: url(img/content.png);
+
+	background-repeat: repeat-y;
+
+	border-width: 0;
+		
+	margin-bottom: 10px;
+
+}
+
+#mainbar #wrapper {
+	min-height: 750px;
+}
+/*\*/
+* html #wrapper {
+height: 750px;
+}
+/**/
+
+
+#mainbar h1{
+
+	border-width: 0;
+
+	padding-left: 50px;
+
+	margin: 0px;
+
+	background-image: url(img/header.png);
+
+	height: 39px;
+}
+
+
+#mainbar h2{
+
+	margin: 0px;
+
+	margin-left: 65px;
+
+	margin-right: 40px;
+
+	border-style:dotted;
+
+	border-color:black;
+
+	border-width: 0 0 1px 0;
+
+}
+
+
+
+#mainbar form{
+
+	padding-left: 50px;
+
+	margin-right: 20px;
+}
+
+
+
+#mainbar p{
+
+	padding-left: 50px;
+
+	margin-right: 20px;
+
+}
+
+
+
+#mainbar p.footer{
+
+	border-width: 0;
+
+	margin: 0px;
+
+	background-image: url(img/footer.png);
+
+	height: 20px;
+
+	font-size: 11px;
+
+	text-align: right;
+
+	padding-right: 80px;
+
+}
+
+#mainbar p.author{
+
+	font-size: 13px;
+
+	margin: 0 0 0 50px;
+
+}
+
+#mainbar p.more{
+
+	font-size: 13px;
+
+	margin-left:500px;
+
+}
+
+#mainbar p.more a{
+
+	color: black;
+
+}
+
+#mainbar div.list{
+
+	margin-left: 50px;
+}
+#mainbar table{
+        margin-left: 50px;
+}
+
+#mainbar table.highscore{
+        font-size:12px;
+        border-style: none;
+}
+
+#mainbar table.highscore td.place{
+        text-align: right;
+}
+
+#mainbar table.highscore td.time{
+        text-align: right;
+}
+
+#mainbar table.highscore td.problem{
+        text-align: right;
+}
+#mainbar table.highscore th.team{
+        text-align: left;
+}
+#mainbar table.highscore td.team{
+        width: 200px;
+        overflow: hidden;
+}
+#mainbar table.highscore td.solved{
+        text-align: center;
+}
+#mainbar table.highscore td.team div{
+        width: 200px;
+        overflow: hidden;
+}
+#mainbar table.highscore tr.zebra{
+        background: #EEEEEE;
+}
+#mainbar table.highscore tr.active{
+        background: #9999FF;
+}
+#mainbar table.highscore td.accepted{
+        background: #90EE90;
+}
+#mainbar table.highscore td.rejected{
+        background: #FFC0CB;
+}
+#mainbar table.highscore td.newchange{
+        background: #10FF10;
+        font-weight: bold;
+}
+
+.teams_team{
+	font-weight: bold;
+}
+.teams_team_grade{
+	font-size: 12px;
+}
+.teams_person{
+	padding-left: 20px;
+	font-style: italic;
+}
+
+div.code {
+	padding-left: 10px;
+
+
+	font-family:"Courier New", Courier, monospace;
+	font-size:small;
+	background-color:#EEEEEE;
+	border-color:#CCCCCC;
+	border-style:dashed;
+	border-width:1px;
+	margin: 5px 20px 20px 50px;
+}
+div.code div.indent {
+	border-color:#000000;
+	border-style:solid;
+	border-width:0;
+	margin-left:15px;
+}
+div.code em.keyword {
+	color:#990066;
+	font-style:normal;
+	font-weight:bold;
+}
+div.code em.string {
+	color:#009900;
+}

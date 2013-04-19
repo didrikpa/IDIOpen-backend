@@ -1,0 +1,244 @@
+import java.io.*;
+import java.util.*;
+
+public class treasure_er_fastbrute {
+	public static BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+	public static StringTokenizer st = null;
+	public static final double EPSILON = 1e-10;
+	
+	
+	public static String LINE() throws IOException {
+		return stdin.readLine();
+	}
+	
+	public static String TOKEN() throws IOException {
+		while(st==null || !st.hasMoreTokens())st = new StringTokenizer(LINE());
+		return st.nextToken();
+	}
+	
+	public static int INT() throws IOException {
+		return Integer.parseInt(TOKEN());
+	}
+	
+	public static void main(String[] args) throws Exception {
+		int cases = INT();
+		while(cases-->0) {
+			int N = INT(), M = INT();
+			long[][] treasures = new long[N][2];
+			long[][] mines = new long[M][2];
+			for(int i = 0;i<N;i++)treasures[i][0] = INT();
+			for(int i = 0;i<N;i++)treasures[i][1] = INT();
+			for(int i = 0;i<M;i++)mines[i][0] = INT();
+			for(int i = 0;i<M;i++)mines[i][1] = INT();
+			int sol = solve(treasures, mines);
+			System.out.println(sol);
+		}
+	}
+
+	private static int solve(long[][] treasures, long[][] mines) {
+		
+		mines = monotoneChain(mines);
+		treasures = removeContained(treasures, mines);
+		
+		int best = 0;
+		for(int i = 0;i<mines.length;i++) {
+			for(int j = 0;j<treasures.length;j++) {
+				best = Math.max(getScore(treasures, mines, i, j), best);
+			}
+		}
+		
+		return best;
+	}
+
+	private static long[][] removeContained(long[][] points, long[][] polygon) {
+		List<long[]> outside = new LinkedList<long[]>();
+		
+		for(long[] p : points) {
+			if(!pointInPolygon(p, polygon))
+				outside.add(p);
+		}
+		
+		long[][] narr = new long[outside.size()][2];
+		for(int i = 0;i<narr.length;i++)narr[i] = outside.get(i);
+		return narr;
+	}
+
+	// Finds the score for the line going
+	private static int getScore(long[][] treasures, long[][] mines, int mi, int ti) {
+		
+		// 1. If there is a mine or treasure on the line between the two points, don't count score!
+		for(int m = 0;m<mines.length;m++) {
+			if(m==mi)continue; // Pivot mine
+			if(pointOnSegment(mines[mi], treasures[ti], mines[m])) {
+				return 0;
+			}
+		}
+		for(int t = 0;t<treasures.length;t++) {
+			if(t==ti)continue; // Pivot treasure
+			if(pointOnSegment(mines[mi], treasures[ti], treasures[t])) {
+				return 0;
+			}
+		}
+		
+		// If mines on both sides of line, don't count score:
+		boolean leftmines = false;
+		boolean rightmines = false;
+		List<Integer> minesOnLine = new ArrayList<Integer>();
+		for(int m = 0;m<mines.length && !(rightmines && leftmines);m++) {
+			if(m == mi)continue; // Pivot mine
+			long cc = ccw(mines[mi], treasures[ti], mines[m]);
+			if(cc>0)leftmines = true;
+			else if(cc<0)rightmines = true;
+			else minesOnLine.add(m);
+		}
+		if(rightmines && leftmines)return 0;
+		
+		// Check that there is no mine on both sides of the treasure on the line.
+		// If there is, don't count score!
+		for(int i = 0;i<minesOnLine.size();i++) {
+			long ac = sqdist(mines[mi],mines[minesOnLine.get(i)]);
+			long ab = sqdist(mines[mi],treasures[ti]);
+			long bc = sqdist(mines[minesOnLine.get(i)],treasures[ti]);
+			if(ac>ab && ac>bc)
+				return 0;
+		}
+		
+		int left = 0, right = 0;
+		int onlinetreasureside = 0, onlinemineside = 0;
+		for(int t = 0;t<treasures.length;t++) {
+			long cc = ccw(mines[mi], treasures[ti], treasures[t]);
+			if(cc == 0) {
+				// The treasure is on the line
+				long distpivotmine = sqdist(treasures[t], mines[mi]);
+				long disttreasure =  sqdist(treasures[t], treasures[ti]);
+				if(disttreasure < distpivotmine) {
+					onlinetreasureside++;
+				} else {
+					onlinemineside++;
+				}
+			} else if(cc > 0){
+				left++;
+			} else if(cc < 0) {
+				right++;
+			}
+		}
+		int online = onlinetreasureside;
+		if(minesOnLine.size()==0) {
+			online = Math.max(onlinetreasureside, onlinemineside);
+		}
+		int best = 0;
+		if(!rightmines)best = Math.max(best, right + online);
+		if(!leftmines)best = Math.max(best, left + online);
+		return best;
+	}
+	
+	private static long sqdist(long[] A, long[] B) {
+		long dx = A[0]-B[0], dy = A[1]-B[1];
+		return dx*dx+dy*dy;
+	}
+
+	private static long ccw(long[] A, long[] B, long[] C) {
+		long x1 = B[0]-A[0], y1 = B[1]-A[1];
+		long x2 = C[0]-A[0], y2 = C[1]-A[1];
+		return x1*y2-x2*y1;
+	}
+	
+	private static boolean pointOnSegment(long[] PA, long[] PB, long[] X) {
+		long A = PB[1] - PA[1];
+		long B = PA[0] - PB[0];
+		long C = A * PA[0] + B * PA[1];
+
+		if (A * X[0] + B * X[1] != C)return false;
+
+		return (((X[0] <= PA[0] && X[0] >= PB[0]) || (X[0] >= PA[0] && X[0] <= PB[0])) 
+				&& ((X[1] <= PA[1] && X[1] >= PB[1]) || (X[1] >= PA[1] && X[1] <= PB[1])));
+
+	}
+	
+	private static long[][] monotoneChain(long[][] polygon) {
+		int N = polygon.length;
+		if (N == 1)return new long[][] { { polygon[0][0], polygon[0][1] } };
+		long[][] points = new long[N][];
+		for(int i = 0;i<N;i++)points[i] = new long[] {polygon[i][0], polygon[i][1]};
+		
+		Arrays.sort(points, 0, N, new Comparator<long[]>() {
+			public int compare(long[] a, long[] b) {
+				if(a[0]<b[0])return -1;	if(a[0]>b[0])return 1;
+				if(a[1]<b[1])return -1;	if(a[1]>b[1])return 1;
+				return 0;
+			}
+		});
+		long[][] U = new long[N+2][]; int ulen = 0;
+		for(int i = 0;i<N;i++) {
+			U[ulen++] = points[i];
+			while(ulen>2 && ccw(U[ulen-3],U[ulen-2],U[ulen-1])>=0)U[ulen-2] = U[--ulen];
+		}
+		int length = ulen--;
+		for(int i = N-1;i>=0;i--) {
+			U[length++] = points[i];
+			while(length-ulen>2 && ccw(U[length-3],U[length-2],U[length-1])>=0)	U[length-2] = U[--length];
+		}
+		if(U[length-1]==U[0])length--;
+		long[][] hull = new long[length][];
+		System.arraycopy(U,0,hull,0,length);
+		return hull;
+	}
+	
+	// OK
+	public static boolean pointInPolygon(long[] P, long[][] polygon) {
+
+		int N = polygon.length;
+		int cnt = 0;
+
+		// Pass paa at disse er utenfor polygonet!!!
+		// Ved fare for krysning i vertex, bruk pointOnLine!
+		long[] P2 = new long[] { 100000, P[1] + 1 };
+
+		for (int i = 0; i < N; i++) {
+			long[] PA = polygon[i];
+			long[] PB = polygon[(i + 1) % N];
+
+			// The point is on another point:
+			if (P[0] == PA[0] && P[1] == PA[1])
+				return true;
+
+			// The point is on the line:
+			if (pointOnLine(PA, PB, P))
+				return true;
+
+			// The infinite line intersects the polygon:
+			if (intersect(PA, PB, P, P2))
+				cnt++;
+
+		}
+		return (cnt % 2 != 0);
+	}
+
+	public static boolean intersect(long[] a, long[] b, long[] c, long[] d) {
+		// OK
+		return java.awt.geom.Line2D.linesIntersect(a[0], a[1], b[0], b[1],
+				c[0], c[1], d[0], d[1]);
+
+//		 Dersom en linje ikke kan starte paa den andre:
+//		 long aa = ccw(c,d,a);
+//		 long bb = ccw(c,d,b);
+//		 if(aa*bb>=0)return false;
+//		 long cc = ccw(a,b,c);
+//		 long dd = ccw(a,b,d);
+//		 return cc*dd<0;
+	}
+
+	// OK!
+	public static boolean pointOnLine(long[] PA, long[] PB, long[] X) {
+		long A = PB[1] - PA[1];
+		long B = PA[0] - PB[0];
+		long C = A * PA[0] + B * PA[1];
+
+		if (A * X[0] + B * X[1] != C)return false;
+
+		return (((X[0] <= PA[0] && X[0] >= PB[0]) || (X[0] >= PA[0] && X[0] <= PB[0])) 
+				&& ((X[1] <= PA[1] && X[1] >= PB[1]) || (X[1] >= PA[1] && X[1] <= PB[1])));
+
+	}
+	
+}

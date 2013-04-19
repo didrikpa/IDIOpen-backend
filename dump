@@ -1,0 +1,9 @@
+INSERT INTO members VALUES(1,1,'Nils Grimsmo','nils.grimsmo@idi.ntnu.no',0,'NTNU/TDT/7th');
+INSERT INTO members VALUES(2,1,'Magnus Jahre','magnus.jahre@idi.ntnu.no',0,'NTNU/TDT/6th');
+INSERT INTO members VALUES(2,2,'Truls Amundsen Bjørklund','trulsamu@idi.ntnu.no',0,'NTNU/TDT/6th');
+INSERT INTO members VALUES(2,3,'Nils Grimsmo','nils.grimsmo@idi.ntnu.no',0,'NTNU/TDT/7th');
+INSERT INTO members VALUES(3,1,'Rune Johan Hovland','runejoho@stud.ntnu.no',0,'NTNU / MTDT / 3.grade');
+INSERT INTO members VALUES(4,1,'Eirik Reksten','eirikben@stud.ntnu.no',0,'NTNU / MTDT / 3.grade');
+INSERT INTO members VALUES(4,2,'Rune Johan Hovland','runejoho@stud.ntnu.no',0,'NTNU / MTDT / 3. grade');
+INSERT INTO members VALUES(5,1,'Eirik Reksten','eirikben@stud.ntnu.no',0,'Excors');
+INSERT INTO members VALUES(6,1,'Tor Gunnar Høst Houeland','houeland@idi.ntnu.no',0,'NTNU/IDI');

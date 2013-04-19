@@ -1,0 +1,37 @@
+import java.io.*;
+
+public class travelling_rs {
+	public static int INF=1000000000;
+	public static void main(String[]a) throws Exception {
+		new travelling_rs().go();
+	}
+	void go() throws Exception {
+		BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+		int cases=Integer.parseInt(in.readLine());
+		while(cases-->0) {
+			int n=Integer.parseInt(in.readLine());
+			int a[]=new int[n+1];
+			String temp[]=in.readLine().split(" ");
+			for(int i=0;i<n;i++) a[i]=Integer.parseInt(temp[i]);
+			a[n]=a[0];
+			int g[][]=new int[n][n];
+			for(int i=0;i<n;i++) {
+				String tmp[]=in.readLine().split(" ");
+				for(int j=0;j<n;j++) {
+					g[i][j]=Integer.parseInt(tmp[j]);
+					if(g[i][j]==-1) g[i][j]=INF;
+				}
+			}
+			for(int k=0;k<n;k++) for(int i=0;i<n;i++) for(int j=0;j<n;j++) {
+				if(g[i][j]>g[i][k]+g[k][j]) g[i][j]=g[i][k]+g[k][j];
+			}
+			int ans=0;
+			for(int i=0;i<n;i++) {
+				if(g[a[i]][a[i+1]]==INF) { ans=-1; break; }
+				ans+=g[a[i]][a[i+1]];
+			}
+			if(ans<0) System.out.println("impossible");
+			else System.out.println(ans);
+		}
+	}
+}

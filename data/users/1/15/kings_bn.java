@@ -1,0 +1,169 @@
+/*
+Solution to 'kings' by Børge Nordli, for IDI Open 2013
+
+DP row by row over number of kings placed so far, and the arrangement of kings in the row above.
+Precalculate all possible arrangements of adjacent rows.
+The number of possible king arrangements K[x] in each row of size x is a shifted Fibonacci Sequence:
+1: 2
+2: 3
+3: 5
+4: 8
+5: 13
+6: 21
+7: 34
+8: 55
+9: 89
+10: 144
+11: 233
+12: 377
+13: 610
+14: 987
+15: 1597
+
+K[x]^2 = F(x + 2)^2 ~= phi^((x+2)*2) ~= 2.62^x
+
+Run O(k*min{y*2.62^x, x*2.62^y}).
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class kings_bn {
+  static BufferedReader ds = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+
+  static String STR() {
+    while (st == null || !st.hasMoreTokens()) st = new StringTokenizer(read());
+    return st.nextToken();
+  }
+
+  static int INT() {
+    return Integer.parseInt(STR());
+  }
+
+  static String read() { try {
+    return ds.readLine();
+  } catch (Exception e) { throw new Error(e); }}
+
+  public static void main(String[] a) {
+    setup(15);
+    int T = INT();
+    while (T --> 0) new kings_bn().go();
+  }
+
+  private static class Row {
+    int pattern;
+    int count;
+    int id;
+    ArrayList<Row> next = new ArrayList<Row>();
+  }
+
+  private static ArrayList<ArrayList<Row>> rows = new ArrayList<ArrayList<Row>>();
+
+  private static void recurse(ArrayList<Row> rows, int p, int x, int pattern, int count) {
+    if (p >= x) {
+      // Reached the end of the row.
+      return;
+    }
+
+    // Don't add a king at position p.
+    recurse(rows, p+1, x, pattern, count);
+
+    // Add a king at position p.
+    pattern |= 1 << p;
+    count += 1;
+    Row row = new Row();
+    row.pattern = pattern;
+    row.count = count;
+    row.id = rows.size();
+    rows.add(row);
+    recurse(rows, p+2, x, pattern, count);
+  }
+
+  private static boolean canCombine(Row a, Row b) {
+    // Check whether row a can be directly below row b
+    return (a.pattern & b.pattern) == 0 &&
+           ((a.pattern << 1) & b.pattern) == 0 &&
+           ((a.pattern >> 1) & b.pattern) == 0;
+  }
+
+  private static void setup(int max) {
+    // Precompute all possible rows and all possible row arrangements for rows up to length max
+    for (int x = 1; x <= max; ++x) {
+      ArrayList<Row> t = new ArrayList<Row>();
+      t.add(new Row());
+
+      recurse(t, 0, x, 0, 0);
+      int total = t.size();
+//      System.out.println("" + x + ": " + total);
+      for (int i = 0; i < total; ++i) {
+        Row r1 = t.get(i);
+        if (canCombine(r1, r1)) {
+          r1.next.add(r1);
+        }
+
+        for (int j = i+1; j < total; ++j) {
+          Row r2 = t.get(j);
+          if (canCombine(r1, r2)) {
+            r1.next.add(r2);
+            r2.next.add(r1);
+          }
+        }
+      }
+      rows.add(t);
+    }
+  }
+
+  private void go() {
+    int x = INT(), y = INT(), kings = INT();
+    if (x > y) {
+      int t = x; x = y; y = t;
+    }
+
+    // Pick the correct row combinations for this row length.
+    ArrayList<Row> use = rows.get(x - 1);
+    int n = use.size();
+
+    // DP array by the number of kings seen this far, and the id of the arrangement in the row above.
+    long[][] prev = new long[kings + 1][];
+    for (int i = 0; i <= kings; ++i) {
+      prev[i] = new long[n];
+    }
+
+    prev[0][0] = 1;
+    for (int i = 0; i < y; ++i) {
+      long[][] next = new long[kings + 1][];
+      for (int j = 0; j <= kings; ++j) {
+        next[j] = new long[n];
+      }
+
+      for (int j = 0; j < n; ++j) {
+        Row t = use.get(j);
+        for (int k = 0; k <= kings; ++k) {
+          if (prev[k][j] == 0) {
+            continue;
+          }
+
+          // Loop over all possible next rows.
+          int m = t.next.size();
+          for (int l = 0; l < m; ++l) {
+            Row r = t.next.get(l);
+            if (k + r.count <= kings) {
+              next[k + r.count][r.id] += prev[k][j];
+              if (next[k + r.count][r.id] >= 1000000007) next[k + r.count][r.id] -= 1000000007;
+            }
+          }
+        }
+      }
+      prev = next;
+    }
+
+    // Finally, sum over all row combinations where the number of kings match exactly.
+    long count = 0;
+    for (int i = 0; i < n; ++i) {
+      count += prev[kings][i];
+      if (count >= 1000000007) count -= 1000000007;
+    }
+    System.out.println(count);
+  }
+}

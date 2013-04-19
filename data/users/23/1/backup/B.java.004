@@ -1,0 +1,130 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Scanner;
+
+
+public class B {
+	
+	static int[] di = new int[]{-1,1,0,0};
+	static int[] dj = new int[]{0,0,-1,1};
+	
+	
+	public void go() throws IOException {
+		
+		int H = sc.nextInt();
+		int W = sc.nextInt();
+		char[][] grid = new char[H][W];
+		for (int i=0; i<H; i++) grid[i] = sc.next().toCharArray();
+		
+		
+		// count sheep (and find ulgr)
+		int ui=0,uj=0;
+		count=1;
+		int[][] sheepMap = new int[H][W]; for (int i=0; i<H; i++) Arrays.fill(sheepMap[i], -1);
+		for (int i=0; i<H; i++)
+			for (int j=0; j<W; j++)
+				switch(grid[i][j]) {
+				case 'U':
+					ui = i;
+					uj = j;
+					sheepMap[i][j] = 0;
+					break;
+				case '#':
+					sheepMap[i][j] = count;
+					count++;
+					break;
+				}
+				
+		cost = new int[count][count];
+		for (int i=0; i<count; i++) Arrays.fill(cost[i], -1);
+		
+		// do bfs from each sheep (and ulgr)
+		for (int i=0; i<H; i++)
+			for (int j=0; j<W; j++) {
+				int from = sheepMap[i][j];
+				if (from == -1) continue;
+				
+				// bfs from i,j
+				ArrayDeque<int[]> q = new ArrayDeque<int[]>();
+				q.add(new int[]{i,j});
+				boolean[][] visited = new boolean[H][W];
+				int[][] dist = new int[H][W]; for (int ii=0; ii<H; ii++) Arrays.fill(dist[ii], -1);
+				dist[i][j] = 0;
+				while(!q.isEmpty()) {
+					int[] p = q.poll();
+					int pi = p[0];
+					int pj = p[1];
+					if (visited[pi][pj]) continue;
+					visited[pi][pj] = true;
+					switch(grid[pi][pj]) {
+					case 'X': continue;
+					case '#':
+					case 'U': 
+						int to = sheepMap[pi][pj];
+						cost[from][to] = dist[pi][pj];
+					}
+					for (int k=0; k<4; k++) {
+						int ii = pi + di[k];
+						int jj = pj + dj[k];
+						if (ii<0||jj<0||ii>=H||jj>=W) continue;
+						if (visited[ii][jj]) continue;
+						dist[ii][jj] = dist[pi][pj] + 1;
+						q.add(new int[]{ii,jj});
+					}
+				}
+			}
+		
+		// if we have unreachables, it's impossible
+		for (int i=0; i<count; i++) for (int j=0; j<count; j++) 
+			if(cost[i][j] == -1) {
+				System.out.println("impossible");
+				return;
+			}
+		
+		MAX = 1<<count;
+		dp  = new int[MAX][count];
+		memo = new boolean[MAX][count];
+
+		ArrayDeque<int[]> q = new ArrayDeque<int[]>();
+		q.add(new int[]{1,0});
+		while(!q.isEmpty()) {
+			int[] p = q.poll();
+			int x = p[0];
+			int prev = p[1];
+			if (memo[x][prev]) continue;
+			memo[x][prev] = true;
+
+			for (int i=1; i<count; i++) {
+				int y = x | (1<<i);
+				if (y==x) continue;
+				dp[y][i] = dp[x][prev] + cost[prev][i] + 1;
+				q.add(new int[]{y,i});
+			}
+		}
+		
+		int min = Integer.MAX_VALUE;
+		for (int i=1; i<count; i++) {
+			int d = dp[MAX-1][i];
+			if (d < min) min = d;
+		}
+		System.out.println(min);
+	}
+
+	int MAX;
+	int[][] dp;
+	int count;
+	int[][] cost;
+	boolean[][] memo;
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		int T = sc.nextInt();
+		while(T-->0) {
+			new B().go();
+		}
+	}
+}

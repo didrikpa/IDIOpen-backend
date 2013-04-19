@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+
+using namespace std;
+
+bool pred(bool a, bool b){
+    if(a=='*'||b=='*') return true;
+    return a==b;
+
+}
+
+int main(){
+    int T; cin >> T;
+    while(T--){
+        string x; cin >> x;
+        string lol = "lol";
+        string lol1="lo";
+        string lol2 = "ol";
+        string lol3 = "ll";
+        string lol4 = "l*l";
+
+        if(x.size()>=3 && find_end(x.begin(), x.end(), lol.begin(), lol.end())!=x.end())
+            cout << 0<<endl;
+        else if(x.size()>=2 && find_end(x.begin(), x.end(), lol1.begin(), lol1.end())!=x.end())
+            cout << 1<<endl;
+        else if(x.size()>=2 && find_end(x.begin(), x.end(), lol2.begin(), lol2.end())!=x.end())
+            cout << 1<<endl;
+        else if(x.size()>=2 && find_end(x.begin(), x.end(), lol3.begin(), lol3.end())!=x.end())
+            cout << 1<<endl;
+        else if(x.size()>=3 && find_end(x.begin(), x.end(), lol4.begin(), lol4.end(), pred)!=x.end())
+            cout << 1<<endl;
+        else if(x.size()>=1 && find(x.begin(), x.end(), 'o')!=x.end())
+            cout << 2<<endl;
+        else if(x.size()>=1 && find(x.begin(), x.end(), 'l')!=x.end())
+            cout << 2<<endl;
+        else 
+            cout << 3 << endl;
+    }
+
+    return 0;
+}

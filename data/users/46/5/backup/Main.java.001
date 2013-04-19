@@ -1,0 +1,61 @@
+import java.util.Scanner;
+
+
+public class Main {
+
+
+	public static void main(String[] args){
+		Scanner in = new Scanner(System.in);
+		int testCases = in.nextInt();
+		for(int i = 0; i < testCases; i++){
+			int best = 3;
+			String s = in.next();
+			if(s.length() == 1){
+				if(s.charAt(0) == 'l' || s.charAt(0) == 'o'){
+					best = 2;
+				}
+			}
+			else if(s.length() == 2){
+				if(s.charAt(0) == 'l'){
+					best--;
+					if(s.charAt(1) == 'o' || s.charAt(1) == 'l'){
+						best--;
+					}
+				}
+				else if(s.charAt(0) == 'o'){
+					best--;
+					if(s.charAt(1) == 'l'){
+						best--;
+					}
+				}
+				else{
+					if(s.charAt(1) == 'o' || s.charAt(1) == 'l'){
+						best--;
+					}
+				}
+			}
+			else{
+				for(int j = 0; j < s.length()-2; j++){
+					int changes = 3;
+					if(s.charAt(j) == 'l'){
+						changes--;
+					}
+					if(s.charAt(j+1) == 'o'){
+						changes--;
+					}
+					if(s.charAt(j+2) == 'l'){
+						changes--;
+					}
+					if((s.charAt(j) == 'l' && s.charAt(j+1) == 'l') || (s.charAt(j+1) == 'l') && (s.charAt(j+2) == 'l')){
+						changes = 1;
+					}
+					if(changes < best){
+						best = changes;
+					}
+
+				}
+			}
+			System.out.println(best);
+		}
+	}
+}

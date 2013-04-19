@@ -1,0 +1,41 @@
+import java.util.Scanner;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+public class Solver {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int T = input.nextInt();
+        input.nextLine();
+
+        for (int i = 0; i < T; ++i) {
+            int N = input.nextInt();
+            int S = input.nextInt();
+            input.nextLine();
+
+            LinkedList<Integer> t = new LinkedList<Integer>();
+            for (int j = 0; j < N; ++j) {
+                t.add(S / input.nextInt() + j);
+            }
+            input.nextLine();
+
+            int numRaces;
+            for (numRaces = 0; !t.isEmpty(); ++numRaces) {
+                int maxT = 0;
+                Iterator<Integer> it = t.iterator();
+
+                while (it.hasNext()) {
+                    int ti = it.next();
+
+                    if (ti >= maxT) {
+                        maxT = ti;
+                        it.remove();
+                    }
+                }
+            }
+
+            System.out.println(numRaces);
+        }
+    }
+}

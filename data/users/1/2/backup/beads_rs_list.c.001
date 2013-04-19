@@ -1,0 +1,30 @@
+/*  solution by ruben spaans
+    naive solution maintaining an array with the number of beans in each box.
+    update: O(1)
+    query: O(n)
+*/
+#include <stdio.h>
+#include <string.h>
+#define MAX 100001
+
+int f[MAX];
+
+int main() {
+  int cases,B,p,q,i,a,b;
+  char s[2];
+  scanf("%d",&cases);
+  while(cases--) {
+    scanf("%d %d %d",&B,&p,&q);
+    memset(f,0,sizeof(int)*(B+1));
+    p+=q;
+    while(p--) {
+      scanf("%s %d %d",s,&a,&b);
+      if(s[0]=='P') f[a]+=b;
+      else {
+        for(i=0;a<=b;) i+=f[a++];
+        printf("%d\n",i);
+      }
+    }
+  }
+  return 0;
+}

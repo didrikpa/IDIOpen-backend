@@ -1,0 +1,108 @@
+/*
+Solution to 'Neurotic Network' by Børge Nordli, for IDI Open 2013
+
+Post order tree traversal of the nodes.
+
+Because of potential stack overflow exceptions, if a node has only one input,
+the weights are multiplied together instead of doing a recursive call.
+The depth of the stack should then be at most log_2(N), which should suffice.
+
+We must also remember the parity of the output separately, because %-ing away
+an odd number might change the parity.
+
+Run time: O(N).
+*/
+
+import java.io.*;
+import java.util.*;
+
+public class neurotic_bn {
+  static BufferedReader ds = new BufferedReader(new InputStreamReader(System.in));
+  static StringTokenizer st;
+
+  static String STR() {
+    while (st == null || !st.hasMoreTokens()) st = new StringTokenizer(read());
+    return st.nextToken();
+  }
+
+  static int INT() {
+    return Integer.parseInt(STR());
+  }
+
+  static String read() { try {
+    return ds.readLine();
+  } catch (Exception e) { throw new Error(e); }}
+
+  final long MAX = 1000000007;
+
+  private class Answer {
+    public Answer(long output, boolean even) {
+      this.output = output;
+      this.even = even;
+    }
+
+    public Answer add(Answer o) {
+      return new Answer((output + o.output) % MAX, even ^ o.even);
+    }
+
+    public Answer multiply(Answer o) {
+      return new Answer((output * o.output) % MAX, even | o.even);
+    }
+
+    final long output;
+    final boolean even;
+  }
+
+  private class Node {
+    ArrayList<Node> input = new ArrayList<Node>();
+    long weight = 1;
+  }
+
+  private Answer compute(Node n) {
+    Answer w = new Answer(n.weight, n.weight % 2 == 0);
+    while (n.input.size() == 1) {
+      // Tail recursion to avoid stack overflow
+      n = n.input.get(0);
+      w = w.multiply(new Answer(n.weight, n.weight % 2 == 0));
+    }
+
+    // No inputs, just return the accumulated weights
+    if (n.input.size() == 0) {
+      return w;
+    }
+
+    // Sum all inputs..
+    Answer s = new Answer(0, true);
+    for (Node i : n.input) {
+      s = s.add(compute(i));
+    }
+
+    // .. and multiply by the accumulated weight.
+    return s.multiply(w);
+  }
+
+  public static void main(String[] a) {
+    int T = INT();
+    while (T --> 0) new neurotic_bn().go();
+  }
+
+  private void go() {
+    int N = INT();
+
+    Node[] nodes = new Node[N];
+    for (int i = 0; i < N; ++i) {
+      nodes[i] = new Node();
+    }
+
+    for (int i = 1; i < N; ++i) {
+      nodes[INT()].input.add(nodes[i]);
+    }
+
+    for (int i = 1; i < N; ++i) {
+      nodes[i].weight = INT();
+    }
+
+    Answer a = compute(nodes[0]);
+    System.out.println(a.even ? "FREAK OUT" : a.output);
+  }
+}

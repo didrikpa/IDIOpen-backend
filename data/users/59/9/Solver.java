@@ -1,0 +1,107 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+
+public class Solver {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int T = input.nextInt();
+
+        for (int k = 0; k < T; ++k) {
+            solveCase(input);
+        }
+    }
+
+    public static void solveCase(Scanner input) {
+        int N = input.nextInt();
+        input.nextLine();
+
+        int[] visits = new int[N + 1];
+        ArrayList<Node> nodes = new ArrayList<Node>();
+
+        for (int j = 0; j < N; ++j) {
+            visits[j] = input.nextInt();
+            nodes.add(new Node(j));
+        }
+        visits[N] = visits[0];
+
+        int[][] costs = new int[N][N];
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < N; ++j) {
+                int cost = input.nextInt();
+
+                costs[i][j] = cost;
+            }
+        }
+
+        try {
+            int totalCost = 0;
+            for (int i = 0; i < visits.length - 1; ++i) {
+                for (Node node : nodes)
+                    node.cost = Integer.MAX_VALUE;
+
+                Node current = nodes.get(visits[i]);
+                Node next = nodes.get(visits[i + 1]);
+                current.cost = 0;
+
+                PriorityQueue<Node> neighbors = new PriorityQueue<Node>();
+                neighbors.addAll(nodes);
+
+                while (!neighbors.isEmpty()) {
+                    Node node = neighbors.poll();
+
+                    if (node.cost == Integer.MAX_VALUE) {
+                        throw new Exception();
+                    }
+
+                    if (node == next) {
+                        totalCost += node.cost;
+                        break;
+                    }
+
+                    for (int j = 0; j < N; ++j) {
+                        if (visits[i] == j)
+                            continue;
+
+                        int cost = costs[node.id][j];
+                        if (cost == -1)
+                            continue;
+
+                        Node neighbor = nodes.get(j);
+
+                        if (neighbor.cost == -1)
+                            continue;
+
+                        int newCost = cost + node.cost;
+
+                        if (newCost < neighbor.cost) {
+                            neighbors.remove(neighbor);
+                            neighbor.cost = newCost;
+                            neighbors.add(neighbor);
+                        }
+                    }
+
+                    node.cost = -1;
+                }
+            }
+
+            System.out.println(totalCost);
+        } catch (Exception e) {
+            System.out.println("impossible");
+        }
+    }
+
+    static class Node implements Comparable<Node> {
+        int cost;
+        int id;
+
+        Node (int id) {
+            this.id = id;
+        }
+
+        public int compareTo(Node node) {
+            return cost - node.cost;
+        }
+    }
+}

@@ -1,0 +1,38 @@
+#include<iostream>
+#include<vector>
+#include<climits>
+
+using namespace std;
+
+int main(){
+    int T; cin >> T;
+    while(T--){
+        int N; long double S; cin >> N >> S;
+        vector<long double> v(N, 0);
+        for(int i=0; i<N; ++i)
+            cin >> v[i];
+
+        int ret = 0;
+        while(v.size()){
+            ++ret;
+            long double goal = S/v[0];
+            v.erase(v.begin());
+            int at = 1;
+            for(int i=0; i<v.size(); ++i){
+                if(at+S/v[i] <= goal){
+                    goal = at + S/v[i];
+                }else{
+                    v.erase(v.begin()+i);
+                    --i;
+                }
+                ++at;
+            }
+        }
+        cout << ret << endl;
+
+
+
+
+    }
+    return 0;
+}

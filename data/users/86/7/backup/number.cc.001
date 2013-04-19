@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+#include <cstdio>
+
+using namespace std;
+
+int main()
+{
+	int amnt;
+	fscanf(stdin, "%d\n", &amnt);
+
+	while(amnt-- > 0)
+	{
+		int i = 0, j;
+		string str;
+		std::getline(cin, str);
+
+		while(i < str.length() && (str[i] == ' ' || str[i] == '0'))
+			i++;
+
+		j = i;
+
+		if(i == str.length())
+		{
+			cout << "invalid input" << endl;
+			continue;
+		}
+
+		while(i < str.length() && str[i] > '0' && str[i] < '9')
+			i++;
+	
+		if(i != str.length())
+		{
+			cout << "invalid input" << endl;
+			continue;
+		}
+
+		cout << str.substr(j) << endl;
+	}
+
+	return 0;
+}

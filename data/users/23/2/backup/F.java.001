@@ -1,0 +1,66 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+
+public class F {
+	
+	class BinaryIndexTree {
+		int h=0;
+		int[][] tree;
+		
+		public BinaryIndexTree(int n) {
+			for (int k=n; k>0; k/=2, h++);
+			tree = new int[h][];
+			for (int l=0, k=n; l<h; l++, k/=2) tree[l] = new int[k+1];
+		}
+		void put(int i, int a) {
+			for (int l=0,k=i; l<h; l++, k/=2) tree[l][k] += a;
+		}
+		int smaller(int i) {
+			int sum = 0;
+			for (int l=0, k=i; l<h; l++, k/=2) if (k%2==1) sum+=tree[l][k-1];
+			return sum;
+		}
+		int between(int i, int j, boolean inclusive) {
+			int sum = smaller(j) - smaller(i);
+			if (inclusive) return sum+tree[0][j];
+			return sum-tree[0][i];
+		}
+	}
+	
+	public void go() throws IOException {
+		StringBuilder ans = new StringBuilder();
+		String[] in = br.readLine().split(" ");
+		int B = Integer.parseInt(in[0]);
+		int P = Integer.parseInt(in[1]);
+		int Q = Integer.parseInt(in[2]);
+		
+		BinaryIndexTree tree = new BinaryIndexTree(B);
+		for (int q=0; q<P+Q; q++) {
+			in = br.readLine().split(" ");
+			if (in[0].charAt(0) == 'P') {
+				int i = Integer.parseInt(in[1]);
+				int a = Integer.parseInt(in[2]);
+				tree.put(i, a);
+			} else {
+				int i = Integer.parseInt(in[1]);
+				int j = Integer.parseInt(in[2]);
+				int beads = tree.between(i, j, true);
+				ans.append(beads);
+				ans.append("\n");
+			}
+		}
+		
+		System.out.println(ans);
+	}
+	
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		int T = Integer.parseInt(br.readLine());
+		while(T-->0) {
+			new F().go();
+		}
+	}
+}

@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+
+using namespace std;
+
+int main()
+{
+	
+	int num;
+	char stringbuf[500];
+
+	//printf("Read num=%d\n", num);
+
+	stringstream sstrm;
+	stringstream ob;
+
+	cin >> ob.rdbuf();
+	
+	ob.getline(stringbuf, 500, '\n');
+	sscanf(stringbuf, "%d\n", &num);
+
+	while(num-- > 0)
+	{
+		int b,p,q;
+		ob.getline(stringbuf, 500, '\n');
+		sscanf(stringbuf, "%d %d %d\n", &b, &p, &q);
+		//printf("Read b=%d, p=%d, q=%d\n", b, p, q);
+
+		vector<int> boxes(b, 0);
+		int nn = p+q;
+
+		while(nn-- > 0)
+		{
+			char t;
+			int a,b;
+
+			ob.getline(stringbuf, 500, '\n');
+			sscanf(stringbuf, "%c %d %d\n", &t, &a, &b);
+			//printf("Read cmd=%c, a=%d, b=%d\n", t, a, b);
+			
+			if(t == 'Q')
+			{
+				int sum = 0;
+				for(int i = a; i <= b; ++i)
+					sum += boxes[i-1];
+
+				sstrm << sum << endl;
+			}
+			else if(t == 'P')
+			{
+				boxes[a-1] += b;
+			}
+		}
+	}
+
+	cout << sstrm.rdbuf();
+
+	return 0;
+}

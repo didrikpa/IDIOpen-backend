@@ -1,0 +1,42 @@
+import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.Iterator;
+
+public class Solver {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
+        int numCases = in.nextInt();
+        in.nextLine();
+
+        for (int i = 0; i < numCases; ++i) {
+            int numPart = in.nextInt();
+            int raceLength = in.nextInt();
+            in.nextLine();
+
+            LinkedList<Integer> speeds = new LinkedList<Integer>();
+            for (int j = 0; j < numPart; ++j) {
+                speeds.addLast(in.nextInt());
+            }
+
+            int numRaces;
+            for (numRaces = 0; !speeds.isEmpty(); ++numRaces) {
+                Iterator<Integer> it = speeds.iterator();
+
+                int startNum = 0;
+                double currentFinishTime = 0;
+                while (it.hasNext()) {
+                    Integer speed = it.next();
+                    double finishTime = raceLength/(double)speed + (startNum++);
+
+                    if (finishTime > currentFinishTime) {
+                        currentFinishTime = finishTime;
+                        it.remove();
+                    }
+                }
+            }
+
+            System.out.println(numRaces);
+        }
+    }
+}

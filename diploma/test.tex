@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+%\begin{equation}
+%x = \begin{cases}
+%        1 & 2 \\
+%        3 & 4
+%    \end{cases}
+%\end{equation}
+
+\begin{equation}
+\label{eq:mdiv}
+m(T) =
+\begin{cases}
+0 & \text{$T > T_c$} \\
+\bigl(1 - [\sinh 2 \beta J]^{-4} \bigr)^{\! 1/8} & \text{$T < T_c$}
+\end{cases}
+\end{equation}
+write matrices
+\begin{align}
+\textbf{T} &=
+\begin{pmatrix}
+T_{++} \hfill & T_{+-} \\
+T_{-+} & T_{--} \hfill 
+\end{pmatrix} , \nonumber \\
+& =
+\begin{pmatrix}
+e^{\beta (J + B)} \hfill & e^{-\beta J} \hfill \\
+e^{-\beta J} \hfill & e^{\beta (J - B)} \hfill
+\end{pmatrix}.
+\end{align}
+and 
+\newcommand{\rv}{\textbf{r}}
+\begin{equation}
+\sum_i \vec A \cdot \vec B = -P\!\int\! \rv \cdot
+\hat{\mathbf{n}}\, dA = P\!\int \! {\vec \nabla} \cdot \rv\, dV.
+\end{equation}
+
+\end{document}

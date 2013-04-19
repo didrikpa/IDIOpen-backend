@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class Solver {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        int T = input.nextInt();input.nextLine();
+
+        for (int i = 0; i < T; ++i) {
+            String line = input.nextLine();
+
+            if (line.matches("\\d+")) {
+                System.out.println(Integer.parseInt(line));
+            } else {
+                System.out.println("invalid input");
+            }
+        }
+    }
+}

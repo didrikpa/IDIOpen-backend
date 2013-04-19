@@ -1,0 +1,42 @@
+#include <string.h>
+#include <stdio.h>
+
+int box[100*1000];
+
+void solve(void) {
+    int B, P, Q, i, j, X, sum;
+    char c;
+
+    scanf("%d %d %d", &B, &P, &Q);
+    while (getc(stdin) != '\n') { }
+    bzero(box, sizeof(*box)*B);
+
+    X = P + Q;
+    while (X--) {
+        scanf("%c %d %d", &c, &i, &j);
+        while (getc(stdin) != '\n') { }
+
+        if (c == 'P') {
+            box[i-1] += j;
+        } else if (c == 'Q') {
+            sum = 0;
+            while (i <= j) {
+                sum += box[i-1];
+                i++;
+            }
+            printf("%d\n", sum);
+        } else {
+            printf("Unknown command %c.\n", c);
+        }
+    }
+}
+
+int main(int argc, char** argv) {
+    int T;
+    scanf("%d", &T);
+    while (getc(stdin) != '\n') { }
+
+    while (T--) solve();
+
+    return 0;
+}

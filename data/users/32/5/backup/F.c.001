@@ -1,0 +1,44 @@
+#include <string.h>
+#include <stdio.h>
+
+int box[100*1000];
+
+char line[1000];
+
+void solve(void) {
+    int B, P, Q, i, j, X, sum;
+    char c;
+
+    gets(line);
+    sscanf(line, "%d %d %d", &B, &P, &Q);
+    bzero(box, sizeof(*box)*B);
+
+    X = P + Q;
+    while (X--) {
+        gets(line);
+        sscanf(line, "%c %d %d", &c, &i, &j);
+
+        if (c == 'P') {
+            box[i-1] += j;
+        } else if (c == 'Q') {
+            sum = 0;
+            while (i <= j) {
+                sum += box[i-1];
+                i++;
+            }
+            printf("%d\n", sum);
+        } else {
+            printf("Unknown command %c.\n", c);
+        }
+    }
+}
+
+int main(int argc, char** argv) {
+    int T;
+    gets(line);
+    sscanf(line, "%d", &T);
+
+    while (T--) solve();
+
+    return 0;
+}
