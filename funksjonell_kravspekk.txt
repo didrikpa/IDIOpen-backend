@@ -1,0 +1,8 @@
+Funksjonell kravspekk:
+	Skal visuelt likne eksisterende siden.
+	Skal være utviklet basert på MVC (ModelViewController)
+	Økt støtte for resultatside (diff/oppdatering)
+	Bedre backend (for dommere, admins)
+	UTF8 (python 3)
+	teste per case OG per språk, ikke bare språk
+	m.m...
