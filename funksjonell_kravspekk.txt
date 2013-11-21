@@ -32,6 +32,7 @@ Her er "minstekravet":
 - Koden skal være pent skrevet, modulær og (helst) ha tilhørende test-cases man kan kjøre for å se at alt virker (alt fra "virker C++-compileren med disse flaggene og dette enkle eksempelprogrammet" til "fungerer det å redigere en bruker")
 - Registrering til en konkurranse.
 - Folk kan redigere (og slette) sitt eget lag frem til registrerings-deadline.
+- Man skal aldri måtte inn i shellet for å fikse ting (per nå må man det for nyheter, redigering av lag, samt lage ny konkurranse). Ingen kopiering av kode skal være nødvendig heller (ny checkout/kopi av hele kodebasen hvert år slik som det er nå er ikke gunstig).
 
 Bonus:
 - Kunne skrive hvor folk sitter (jamfør ballongsystemet).
