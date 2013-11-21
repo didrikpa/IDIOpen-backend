@@ -2,6 +2,8 @@ Jeg synes ikke det er spesielt viktig at den nye siden skal ligne på den gamle.
 
 Når det kommer til sikkerhet er det viktig at man ikke kan drive med SQL-injections i tekstfelt på siden (innloggging, clarifications, osv.) samt at kode som faktisk kjøres på serveren må underlegges strenge krav (slik som dagens system, med en algrun-bruker som ikke kan annet enn å kjøre ting med veldig lite minne).
 
+Backend støtte vil bli gitt av Christian Jonassen, Christian Chavez, og Finn Holme.
+
 Her er "minstekravet":
 - Opprette konkurranser
 - Legge til dommere.
