@@ -29,6 +29,9 @@ Her er "minstekravet":
 - Clarifications-system: Lag stiller spørsmål som dommere kan svare på. Et spørsmål er enten tilknyttet en oppgave eller går under "generelt". Svar gis enten til lag eller til alle. Fint om det kommer notifications i nettleseren (en liten boks nede i høyre hjørne eller noe) når det er gitt en clarification som laget kan se (trenger ikke å melde fra om clarifications på oppgaver til laget som har løst dem).
 -- Nyhetssystem, der man kan velge når ting skal publiseres. Fint om dette også kan gjøres for filer (tenker da hovedsaklig på problemsettet).
 -- Kunne se submissions med tilhørende output (og system- og kompilator-feilmeldinger, kræsjlogg, osv. for dommere).
+- Koden skal være pent skrevet, modulær og (helst) ha tilhørende test-cases man kan kjøre for å se at alt virker (alt fra "virker C++-compileren med disse flaggene og dette enkle eksempelprogrammet" til "fungerer det å redigere en bruker")
+- Registrering til en konkurranse.
+- Folk kan redigere (og slette) sitt eget lag frem til registrerings-deadline.
 
 Bonus:
 - Kunne skrive hvor folk sitter (jamfør ballongsystemet).
