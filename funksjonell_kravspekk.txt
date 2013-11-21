@@ -16,7 +16,7 @@ Her er "minstekravet":
 - Opprette konkurranser
 - Legge til dommere.
 -- Opprette oppgaver
---- Laste opp cases med input/output og kunne sette resource limit (tid+minne) per språk. Fint om test cases kan ha en tittel også (f.eks. "corner case where all the nodes are upside down").
+--- Laste opp cases med input/output og kunne sette resource limit (tid+minne) per språk. Fint om test cases kan ha en tittel også (f.eks. "corner case where all the nodes are upside down"). Det bør også være et valg som heter "detect resource limit" som da tar gjennomsnittet av en løsning som skal overskride ressursgrensene og den verste godkjente løsningen per input.
 --- Laste opp dommerløsninger som da gir den samme korrekte output.
 --- Laste opp løsninger som gir timeout.
 --- Laste opp løsninger som gir wrong answer.
