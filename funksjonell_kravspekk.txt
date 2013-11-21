@@ -6,3 +6,39 @@ Funksjonell kravspekk:
 	UTF8 (python 3)
 	teste per case OG per språk, ikke bare språk
 	m.m...
+
+Fra Christian Neverdal Jonassen:
+Jeg synes ikke det er spesielt viktig at den nye siden skal ligne på den gamle. En gruppe bør kunne velge dette selv, mener jeg, særlig dersom gruppen har interesse/kompetanse når det kommer til webdesign. 
+
+Når det kommer til sikkerhet er det viktig at man ikke kan drive med SQL-injections i tekstfelt på siden (innloggging, clarifications, osv.) samt at kode som faktisk kjøres på serveren må underlegges strenge krav (slik som dagens system, med en algrun-bruker som ikke kan annet enn å kjøre ting med veldig lite minne).
+
+Her er "minstekravet":
+- Opprette konkurranser
+- Legge til dommere.
+-- Opprette oppgaver
+--- Laste opp cases med input/output og kunne sette resource limit (tid+minne) per språk. Fint om test cases kan ha en tittel også (f.eks. "corner case where all the nodes are upside down").
+--- Laste opp dommerløsninger som da gir den samme korrekte output.
+--- Laste opp løsninger som gir timeout.
+--- Laste opp løsninger som gir wrong answer.
+--- Kunne kjøre alle dommerløsninger og se at de gir forventet resultat (og kjører innenfor/utenfor tiden), og eventuelt raskt printe ut hvilke dommerløsninger som mangler (som i at "problemet Ruben Spawns mangler Java-løsning").
+-- Bestemme penalty-system
+--- Som regel vil det være (tid siden konkurransen begynte) + X * (incorrect submissions), der X må kunne stilles på.
+-- Scoreboard på konkurranser.
+-- Kunne stille på tillatte språk og deres compiler-flagg.
+-- Ballongsystem (gjerne et som er enkelt å bruke). I hovedsak lage en event hver gang noen løser en oppgave med ballong, lagnavn og (bonus, men veldig gjerne) hvor de sitter.
+- Clarifications-system: Lag stiller spørsmål som dommere kan svare på. Et spørsmål er enten tilknyttet en oppgave eller går under "generelt". Svar gis enten til lag eller til alle. Fint om det kommer notifications i nettleseren (en liten boks nede i høyre hjørne eller noe) når det er gitt en clarification som laget kan se (trenger ikke å melde fra om clarifications på oppgaver til laget som har løst dem).
+-- Nyhetssystem, der man kan velge når ting skal publiseres. Fint om dette også kan gjøres for filer (tenker da hovedsaklig på problemsettet).
+-- Kunne se submissions med tilhørende output (og system- og kompilator-feilmeldinger, kræsjlogg, osv. for dommere).
+
+Bonus:
+- Kunne skrive hvor folk sitter (jamfør ballongsystemet).
+- Kunne (gjerne automatisk) lage practice event etter konkurransen er over (checkbox når man lager konkurransen om man vil det skal skje eller ikke).
+- Kunne "spille av" en hel konkurranse (altså: logge submissions med kode og kunne late som at alt skjedde på nytt), noe som er fint for testing ved neste punkt:
+- Kunne støtte flere kjørenoder samtidig.
+- Fint om det er lett å legge til flere språk. Burde stort sett være: installer kompilatoren på serveren, legg til kommando + flagg på admin-siden.
+- Kunne lage test-events der man bare velger og vrake i gamle oppgaver (som da allerede har dommerløsninger og alt klart, så det er bare å sy sammen).
+- Eventuelle andre sykt kule ting gruppa måtte finne på.
+
+Det ble også brainstormet litt på http://events.idi.ntnu.no/prog-contests/wiki/newplayground en gang i tiden (kanskje verdt å sjekke ut).
+
+Det er med andre ord full mulighet til å ta ting så langt man vil her tror jeg, fra å kunne bruke flere kjørenoder (kan være greit i fremtiden) til å støtte Haskell.
